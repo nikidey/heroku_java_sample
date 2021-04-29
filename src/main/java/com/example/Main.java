@@ -67,13 +67,12 @@ String hello(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
       ResultSet rs = stmt.executeQuery("SELECT ticks.Orders FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        String Orders = rs.getString("ticks.Orders");
-        output.add("Read from DB: " + Orders);
+        String Orders_data = rs.getString("ticks.Orders");
+        output.add("Read from DB: " + Orders_data);
       }
 
       model.put("records", output);
