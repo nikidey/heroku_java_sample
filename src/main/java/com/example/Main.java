@@ -72,7 +72,8 @@ String hello(Map<String, Object> model) {
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getMetaData("Orders"));
+        String Orders = rs.getString("Orders");
+        output.add("Read from DB: " + Orders);
       }
 
       model.put("records", output);
