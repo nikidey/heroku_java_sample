@@ -51,6 +51,7 @@ public class Main {
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
   }
+
   @RequestMapping("/")
   String index() {
     return "index";
@@ -67,12 +68,12 @@ String hello(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      ResultSet rs = stmt.executeQuery("SELECT ticks.Orders FROM ticks");
+      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        String Orders_data = rs.getString("ticks.Orders");
-        output.add("Read from DB: " + Orders_data);
+        output.add("Read from DB: " + rs.getTimestamp("tick"));
       }
 
       model.put("records", output);
